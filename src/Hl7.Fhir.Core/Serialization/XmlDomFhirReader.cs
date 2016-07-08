@@ -16,8 +16,10 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
+
 namespace Hl7.Fhir.Serialization
 {
+   
     public class XmlDomFhirReader : IFhirReader
     {
         public const string BINARY_CONTENT_MEMBER_NAME = "content";

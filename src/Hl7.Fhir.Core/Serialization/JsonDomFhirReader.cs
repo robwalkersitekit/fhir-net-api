@@ -19,6 +19,7 @@ namespace Hl7.Fhir.Serialization
 {
     public class JsonDomFhirReader : IFhirReader
     {
+      
         public const string RESOURCETYPE_MEMBER_NAME = "resourceType";
 
         private JToken _current;
