@@ -8,10 +8,11 @@ namespace Hl7.Fhir.Serialization
 {
     public class XmlDomFhirNavigator : IElementNavigator, IPositionInfo
     {
-        private XmlDomFhirNavigator(XObject parent, XObject current, bool disallowXsiAttributesOnRoot = false)
+        internal XmlDomFhirNavigator(XElement current, XAttribute attribute, XState state, bool disallowXsiAttributesOnRoot = false)
         {
-            this.parent = parent;
             this.current = current;
+            this.attribute = attribute;
+            this.state = state;
             this.DisallowXsiAttributesOnRoot = disallowXsiAttributesOnRoot;
         }
 
@@ -19,7 +20,18 @@ namespace Hl7.Fhir.Serialization
         {
             get
             {
-                throw new NotImplementedException();
+                if (state == XState.Element && current != null)
+                {
+                    return current.Name.LocalName;
+                }
+                else if (state == XState.Attr && attribute != null)
+                {
+                    return attribute.Name.LocalName;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -27,10 +39,18 @@ namespace Hl7.Fhir.Serialization
         {
             get
             {
-                if (current is XElement)
-                    return ((XElement)current).Name.LocalName;
+                if (state == XState.Element && current != null)
+                {
+                    return "element";
+                }
+                else if (state == XState.Attr && attribute != null)
+                {
+                    return "attribute";
+                }
                 else
-                    throw Error.Format("Cannot get resource type name: reader not at an element", this);
+                {
+                    return "unknown";
+                }
             }
         }
 
@@ -38,55 +58,58 @@ namespace Hl7.Fhir.Serialization
         {
             get
             {
-                throw new NotImplementedException();
+                if (state == XState.Element && current != null)
+                {
+                    return current.Value;
+                }
+                else if (state == XState.Attr && attribute != null)
+                {
+                    return attribute.Value;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
         public IElementNavigator Clone()
         {
-            return new XmlDomFhirNavigator(current, this.DisallowXsiAttributesOnRoot);
+            return new XmlDomFhirNavigator(current, attribute, state, DisallowXsiAttributesOnRoot);
         }
 
         public bool MoveToFirstChild()
         {
-            if (current is XElement)
+            if (state == XState.Element)
             {
                 bool ok = MoveToFirstXAttribute();
-                if (ok)
-                {
-                    return ok;
-                }
-                else
-                {
-                    return MoveToFirstXElement();
-                }
+                if (!ok) ok = MoveToFirstXElement();
+                return ok;
             }
             else
             {
                 return false;
             }
+        
         }
 
         public bool MoveToNext()
         {
             bool ok = true;
 
-            if (IsAttribute)
+            if (state == XState.Attr)
             {
                 ok = MoveToNextXAttribute();
-                if (ok)
+                if (!ok)
                 {
-                    return ok;
-                }
-                else
-                {
-                    return MoveToNextXElement();
+                    ok = MoveToFirstXElement();
                 }
             }
             else
             {
-                return MoveToNextXElement();
-            } 
+                ok = MoveToNextXElement();
+            }
+            return ok;
         }
 
         private void MovetoRoot(XObject root)
@@ -94,7 +117,7 @@ namespace Hl7.Fhir.Serialization
             if (root is XDocument)
                 current = ((XDocument)root).Root;
             else
-                current = root;
+                current = (XElement)root;
         }
 
         public const string BINARY_CONTENT_MEMBER_NAME = "content";
@@ -130,7 +153,6 @@ namespace Hl7.Fhir.Serialization
             }
         }
 
-
         private bool ValidAttribute(XAttribute attr)
         {
             return true;
@@ -138,57 +160,38 @@ namespace Hl7.Fhir.Serialization
 
         private bool MoveToFirstXAttribute()
         {
-            if (!(current is XElement)) return false;
-
-            var element = (XElement)current;
-            if (element.HasAttributes)
+            if (current.HasAttributes)
             {
-                parent = element;
-                current = element.FirstAttribute;
+                state = XState.Attr;
+                this.attribute = current.FirstAttribute;
                 return true;
             }
             else
             {
                 return false;
             }
-
         }
 
         private bool MoveToNextXAttribute()
         {
-            if (current is XAttribute)
-            {
-                var a = (XAttribute)current;
-                bool ok;
-                do
-                {
-                    a = a.NextAttribute;
-                    ok = (a != null);
-                }
-                while (ok && !ValidAttribute(a));
-                if (!ok) parent = null; // warning, circumstantial evidence
-                return ok;
-            }
-            else
-            {
-                return false;
-            }
+            attribute = attribute.NextAttribute;
+            return attribute != null;
         }
 
         private bool MoveToFirstXElement()
         {
-            if (!(current is XElement)) return false;
+            // we just came from the last XAttribute.
+            state = XState.Element;
 
-            if (parent.HasElements) 
-            { 
-                current = parent.FirstNode;
+            if (current.HasElements)
+            {
+                current = (XElement)current.FirstNode;
                 return true;
             }
             else
             {
                 return false;
             }
-
         }
 
         private bool MoveToNextXElement()
@@ -196,7 +199,7 @@ namespace Hl7.Fhir.Serialization
             if (current is XElement)
             {
                 var node = (XNode)current;
-                current = node.NextNode;
+                current = (XElement)node.NextNode;
                 return (current != null);
             }
             else
@@ -205,15 +208,15 @@ namespace Hl7.Fhir.Serialization
             }
         }
 
-        private bool IsAttribute
+        public override string ToString()
         {
-            get 
-            {
-                return (current is XAttribute);
-            }
+            return $"{this.Name}({this.TypeName}) = {this.Value}";
         }
-        
-        XElement parent;
-        XObject current;
+
+        XElement current;
+        XAttribute attribute;
+        XState state;
     }
+
+    public enum XState { Element, Attr, Unknown };
 }

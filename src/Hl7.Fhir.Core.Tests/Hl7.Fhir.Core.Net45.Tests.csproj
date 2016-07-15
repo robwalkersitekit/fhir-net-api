@@ -55,9 +55,17 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Furore.MetaModel, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Furore.MetaModel.1.0.2-beta\lib\net40\Furore.MetaModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sprache, Version=2.0.0.51, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sprache.2.0.0.51\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid+Xamarin.iOS10+MonoTouch\Sprache.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -105,6 +113,7 @@
     <Compile Include="Serialization\DefaultModelFactoryTest.cs" />
     <Compile Include="Serialization\MeasurePerformance.cs" />
     <Compile Include="Serialization\ModelClassFactoryListTest.cs" />
+    <Compile Include="Serialization\NavigatorParserTests.cs" />
     <Compile Include="Serialization\QueryParserTests.cs" />
     <Compile Include="Serialization\ResourceParsingTests.cs" />
     <Compile Include="Serialization\RoundtripTest.cs" />

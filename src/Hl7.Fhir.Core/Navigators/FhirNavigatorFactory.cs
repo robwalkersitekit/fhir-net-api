@@ -2,6 +2,8 @@
 using System.Xml.Linq;
 using System.Xml;
 using Hl7.Fhir.Support;
+using Newtonsoft.Json;
+using System;
 
 namespace Hl7.Fhir.Serialization
 {
@@ -20,7 +22,21 @@ namespace Hl7.Fhir.Serialization
                 throw Error.Format("Cannot parse xml: " + xec.Message, null);
             }
 
-            return new XmlDomFhirNavigator(null, doc.Root, disallowXsiAttributesOnRoot);
+            return new XmlDomFhirNavigator(doc.Root, null, XState.Element, disallowXsiAttributesOnRoot);
+        }
+
+        public static IElementNavigator CreateXmlNavigator(string xml)
+        {
+            using (var reader = SerializationUtil.XmlReaderFromXmlText(xml))
+            {
+                return Create(reader);
+            }
+        }
+
+        public static IElementNavigator Create(JsonReader reader, bool disallowXsiAttributesOnRoot = false)
+        {
+            throw new NotImplementedException();
         }
     }
+
 }

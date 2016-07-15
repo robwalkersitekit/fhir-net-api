@@ -49,6 +49,9 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Furore.MetaModel">
+      <HintPath>..\packages\Furore.MetaModel.1.0.2-beta\lib\netstandard1.0\Furore.MetaModel.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -83,7 +86,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -114,6 +119,7 @@
     <Compile Include="Serialization\ResourceParsingTests.cs" />
     <Compile Include="Serialization\RoundtripTest.cs" />
     <Compile Include="Serialization\SerializationTests.cs" />
+    <Compile Include="Serialization\NavigatorParserTests.cs" />
     <Compile Include="Validation\ValidatePatient.cs" />
     <Compile Include="Validation\ValidationTests.cs" />
     <Compile Include="XmlAssert.cs" />
@@ -143,6 +149,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Hl7.Fhir.Core\Hl7.Fhir.Core.Net45.csproj">
+      <Project>{92CC9186-0A21-4E06-B11F-907584FBFD81}</Project>
+      <Name>Hl7.Fhir.Core.Net45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hl7.Fhir.Core\Hl7.Fhir.Core.Portable45.csproj">
       <Project>{1e26fe9d-eef8-4c39-b54f-6ca12f7c7ca5}</Project>
       <Name>Hl7.Fhir.Core.Portable45</Name>
