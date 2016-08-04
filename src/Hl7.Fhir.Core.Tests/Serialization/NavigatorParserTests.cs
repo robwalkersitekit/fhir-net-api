@@ -2,8 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Hl7.Fhir.Serialization;
-using Hl7.Fhir.FluentPath;
 using System.Diagnostics;
+using Furore.MetaModel;
 
 namespace Hl7.Fhir.Core.Tests.Serialization
 {

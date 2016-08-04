@@ -1,12 +1,12 @@
 ﻿using System;
-using Hl7.Fhir.FluentPath;
 using System.Xml.Linq;
 using Hl7.Fhir.Support;
 using System.Xml;
+using Furore.MetaModel;
 
 namespace Hl7.Fhir.Serialization
 {
-    public class XmlDomFhirNavigator : IElementNavigator, IPositionInfo
+    public struct XmlDomFhirNavigator : IElementNavigator, IPositionInfo
     {
         internal XmlDomFhirNavigator(XElement current, XAttribute attribute, XState state, bool disallowXsiAttributesOnRoot = false)
         {

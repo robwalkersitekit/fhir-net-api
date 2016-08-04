@@ -1,9 +1,9 @@
-﻿using Hl7.Fhir.FluentPath;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using System.Xml;
 using Hl7.Fhir.Support;
 using Newtonsoft.Json;
 using System;
+using Furore.MetaModel;
 
 namespace Hl7.Fhir.Serialization
 {

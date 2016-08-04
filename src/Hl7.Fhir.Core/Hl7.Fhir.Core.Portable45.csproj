@@ -55,7 +55,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Furore.MetaModel">
-      <HintPath>..\packages\Furore.MetaModel.1.0.1\lib\netstandard1.0\Furore.MetaModel.dll</HintPath>
+      <HintPath>..\packages\Furore.MetaModel.1.4.1-beta2\lib\netstandard1.0\Furore.MetaModel.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
@@ -565,6 +565,8 @@
     <Compile Include="Model\StructureDefinition.cs" />
     <Compile Include="Model\Time.cs" />
     <Compile Include="Model\UnsignedInt.cs" />
+    <Compile Include="Navigators\FhirNavigatorFactory.cs" />
+    <Compile Include="Navigators\XmlDomFhirNavigator.cs" />
     <Compile Include="Properties\AssemblyVersionInfo.cs" />
     <Compile Include="Rest\EntryToHttpExtensions.cs" />
     <Compile Include="Rest\FhirClientOperations.cs" />

@@ -11,7 +11,7 @@ namespace Hl7.Fhir.Model
     /// </summary>
     [Obsolete("The Query class has been made obsolete, please change to the class Parameters instead", true)]
     public class Query : Parameters
-    {
+    { 
     }
 
     [Obsolete("The ResourceEntry class has been made obsolete, please change to the class Bundle.EntryComponent instead", true)]
