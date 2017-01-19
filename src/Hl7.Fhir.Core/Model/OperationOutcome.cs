@@ -59,7 +59,7 @@ namespace Hl7.Fhir.Model
             {
                 text += Environment.NewLine;
 
-                foreach (var issue in Issue)
+                foreach (var issue in Issue.Where(issue => issue.Severity == IssueSeverity.Error || issue.Severity == IssueSeverity.Fatal))
                 {
                     var indent = new string(' ', issue.HierarchyLevel * 2);
                     text += indent + issue.ToString() + Environment.NewLine;

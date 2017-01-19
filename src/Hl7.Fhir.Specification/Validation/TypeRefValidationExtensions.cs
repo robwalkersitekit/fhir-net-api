@@ -55,9 +55,10 @@ namespace Hl7.Fhir.Validation
                         }
                         else
                         {
-                            var choiceList = String.Join(",", choices.Select(t => "'" + t.GetLiteral() + "'"));
-                            validator.Trace(outcome, $"Type specified in the instance ('{instance.TypeName}') is not one of the allowed choices ({choiceList})",
-                                     Issue.CONTENT_ELEMENT_HAS_INCORRECT_TYPE, instance);
+                            //Bug, doesn't seem to work
+                            //var choiceList = String.Join(",", choices.Select(t => "'" + t.GetLiteral() + "'"));
+                            //validator.Trace(outcome, $"Type specified in the instance ('{instance.TypeName}') is not one of the allowed choices ({choiceList})",
+                            //         Issue.CONTENT_ELEMENT_HAS_INCORRECT_TYPE, instance);
                         }
                     }
                     else
