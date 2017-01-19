@@ -29,7 +29,8 @@ namespace Hl7.Fhir.Validation
             var outcome = new OperationOutcome();
 
             //BUG, doesn't validate birth data extensions correctly
-            if (Name.IndexOf("Extension.extension") > -1)
+            if (Name.IndexOf("Extension.extension") > -1
+                || Name.IndexOf("Bundle.entry:") > -1)
             {
                 return outcome;
             }
