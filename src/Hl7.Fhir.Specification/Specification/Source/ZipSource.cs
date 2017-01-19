@@ -20,15 +20,20 @@ namespace Hl7.Fhir.Specification.Source
     /// </summary>
     public class ZipSource : IConformanceSource, IArtifactSource
     {
-        public static ZipSource CreateValidationSource()
+        public static ZipSource CreateValidationSource(string folderLocation)
         {
-            var path = Path.Combine(DirectorySource.SpecificationDirectory, "specification.zip");
-            if(File.Exists(path)) return new ZipSource(path);
+            var path = Path.Combine(folderLocation, "specification.zip");
+            if (File.Exists(path)) return new ZipSource(path);
 
             //path = Path.Combine(DirectorySource.SpecificationDirectory, "validation-min.xml.zip");
             //if (File.Exists(path)) return new ZipSource(path);
 
             throw new FileNotFoundException("Cannot create a ZipArtifactSource for the core specification: specification.zip was not found");
+        }
+
+        public static ZipSource CreateValidationSource()
+        {
+            return CreateValidationSource(DirectorySource.SpecificationDirectory);
         }
 
         private readonly string CACHE_KEY = "FhirArtifactCache-" + typeof(ZipSource).Assembly.GetName().Version.ToString();

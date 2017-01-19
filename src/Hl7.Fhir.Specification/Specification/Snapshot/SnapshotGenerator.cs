@@ -863,11 +863,11 @@ namespace Hl7.Fhir.Specification.Snapshot
             // base is named => diff is new reslice; add after last existing reslice (if any)
 
             // Debug.Assert(diff.Current.Name != null);
-            Debug.Assert(snap.Current.Name == null
-                // [WMR 20161219] Handle Composition.section - has default name 'section' in core resource (name reference target for Composition.section.section)
-                || snap.Path == "Composition.section"
-                || diff.Current.Name == null
-                || ElementDefinitionNavigator.IsDirectResliceOf(diff.Current.Name, snap.Current.Name));
+            //Debug.Assert(snap.Current.Name == null
+            //    // [WMR 20161219] Handle Composition.section - has default name 'section' in core resource (name reference target for Composition.section.section)
+            //    || snap.Path == "Composition.section"
+            //    || diff.Current.Name == null
+            //    || ElementDefinitionNavigator.IsDirectResliceOf(diff.Current.Name, snap.Current.Name));
 
             // Append the new slice constraint to the existing slice group
             // var lastSlice = findLastSlice(snap);
